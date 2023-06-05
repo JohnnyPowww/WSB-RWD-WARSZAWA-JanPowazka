@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="topnav" id="myTopnav">
+        <a href="#" >Strona Główna</a>
+        <a href="#">Zainteresowania</a>
+        <a href="#">Studia</a>
+        <a href="#">Kontakt</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </nav>
+
+    <div class="gallery">
+        <img src="../img/zdj1.jpg" class="thumbnail">
+        <img src="../img/zdj2.jpg" class="thumbnail">
+        <img src="../img/zdj3.jpg" class="thumbnail">
+        <img src="../img/zdj4.jpg" class="thumbnail">
+        <img src="../img/zdj5.jpg" class="thumbnail">
+        <img src="../img/zdj6.jpg" class="thumbnail">
+        <img src="../img/zdj7.jpg" class="thumbnail">
+        <img src="../img/zdj8.jpg" class="thumbnail">
+    </div>
+    <div id="overlay">
+        <span class="close">&times;</span>
+        <span class="arrow left-arrow">&lt;</span>
+        <span class="arrow right-arrow">&gt;</span>
+        <img src="" id="overlay-image">
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const thumbnails = document.querySelectorAll(".thumbnail");
+            const overlay = document.getElementById("overlay");
+            const overlayImage = document.getElementById("overlay-image");
+            const close = document.querySelector(".close");
+            const leftArrow = document.querySelector(".left-arrow");
+            const rightArrow = document.querySelector(".right-arrow");
+            let currentImageIndex = 0;
+
+            thumbnails.forEach(function (thumbnail, index) {
+                thumbnail.addEventListener("click", function () {
+                    currentImageIndex = index;
+                    displayImage();
+                    overlay.style.display = "flex";
+                });
+            });
+
+            close.addEventListener("click", function () {
+                overlay.style.display = "none";
+            });
+
+            leftArrow.addEventListener("click", function () {
+                navigateImages(-1);
+            });
+
+            rightArrow.addEventListener("click", function () {
+                navigateImages(1);
+            });
+
+            function displayImage() {
+                const currentImage = thumbnails[currentImageIndex];
+                const src = currentImage.getAttribute("src");
+                const alt = currentImage.getAttribute("alt");
+
+                overlayImage.setAttribute("src", src);
+                overlayImage.setAttribute("alt", alt);
+            }
+
+            function navigateImages(direction) {
+                currentImageIndex += direction;
+
+                if (currentImageIndex < 0) {
+                    currentImageIndex = thumbnails.length - 1;
+                } else if (currentImageIndex >= thumbnails.length) {
+                    currentImageIndex = 0;
+                }
+
+                displayImage();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
